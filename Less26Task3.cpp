@@ -109,7 +109,7 @@ class Display {
 
 int main() {
 	Display* display1 = new Display;
-
+	std::cout << "Enter display size\n";
 	display1->setDisplay();
 	display1->setWindow();
 
