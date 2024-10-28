@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 class Display {
 
@@ -68,11 +68,11 @@ class Display {
 		std::cin >> nWndLgt;
 		if (nWndLgt < 1) nWndLgt = { 1 };
 		nWndLgt *= 2;
-		if ((nWndX + nWndLgt) > nDspLgt) nWndLgt = { nWndLgt - nWndX };
+		if ((nWndX + nWndLgt) > nDspLgt) nWndLgt = { nDspLgt - nWndX };
 		std::cout << "Enter window haight: ";
 		std::cin >> nWndHgt;
 		if (nWndHgt < 1) nWndHgt = { 1 };
-		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nWndHgt - nWndY };
+		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nDspHgt - nWndY };
 	}
 	void setMove() {
 		int nX{ 0 }, nY{ 0 };
@@ -84,7 +84,7 @@ class Display {
 		
 		std::cout << "Enter vector Y point: ";
 		std::cin >> nY;
-		nWndX += nY;
+		nWndY += nY;
 		if (nWndY < 0) nWndY = { 0 };
 		if (nWndY > nDspHgt - 1) nWndY = { nDspHgt - 1 };
 		
@@ -95,12 +95,12 @@ class Display {
 		std::cin >> nWndLgt;
 		if (nWndLgt < 1) nWndLgt = { 1 };
 		nWndLgt *= 2;
-		if ((nWndX + nWndLgt) > nDspLgt) nWndLgt = { nWndLgt - nWndX };
+		if ((nWndX + nWndLgt) > nDspLgt) nWndLgt = { nDspLgt - nWndX };
 		
 		std::cout << "Enter window haight: ";
 		std::cin >> nWndHgt;
 		if (nWndHgt < 1) nWndHgt = { 1 };
-		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nWndHgt - nWndY };
+		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nDspHgt - nWndY };
 
 		std::cout << "New size window (" << nWndLgt/2 << " X " << nWndHgt << ")\n";
 	}
@@ -114,13 +114,14 @@ int main() {
 	display1->setWindow();
 
 	std::string cCmd{ "" };
-	std::cout << "Enter command (move, resize, display, close): ";
-	std::cin >> cCmd;
 
 	while (cCmd != "close") {
+		std::cout << "Enter command (move, resize, display, close): ";
+		std::cin >> cCmd;
 		if (cCmd == "move") display1->setMove();
-		if (cCmd == "resize")display1->setResize();
-		if (cCmd == "display") display1->getDisplay();
+		else if (cCmd == "resize")display1->setResize();
+		else if (cCmd == "display") display1->getDisplay();
+		else std::cout << "unknown command\n";
 	}
 
 	delete display1;
