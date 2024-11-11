@@ -8,9 +8,9 @@ class Display {
 
 	public:
 
-	static int getDspParam(Display* display) {
-		int arrDspParam[2]{ display->nDspLgt, display->nDspHgt};
-		return *arrDspParam;
+	int* getDspParam() {
+		int arrDspParam[2]{ nDspLgt, nDspHgt};
+		return arrDspParam;
 	}
 
 	void setDisplay() {
@@ -23,12 +23,12 @@ class Display {
 		if (nDspHgt < 1) nDspHgt = { 1 };
 	}
 	
-	void getDisplay(Window* window) {
-		int arrWinParam{ Window::getWinParam(window) }; //{nWndX, nWndY, nWndLgt, nWndHgt };
-		int nWndX{ arrWinParam };
-		int nWndY{ arrWinParam + 1 };
-		int nWndLgt{ arrWinParam + 2 };
-		int nWndHgt{ arrWinParam + 3 };
+	void getDisplay(int* arrWinParam) {
+		//int arrWinParam{ Window::getWinParam(window) }; //{nWndX, nWndY, nWndLgt, nWndHgt };
+		int nWndX{ arrWinParam[0]};
+		int nWndY{ arrWinParam[1]};
+		int nWndLgt{ arrWinParam[2]};
+		int nWndHgt{ arrWinParam[3]};
 
 		std::cout << (char)0xC9;
 		for (int i = 0; i <= nDspLgt; i++) {
@@ -72,10 +72,10 @@ class Window {
 private:
 	int nWndX{ 0 }, nWndY{ 0 }, nWndLgt{ 0 }, nWndHgt{ 0 };
 public:
-	void setWindow(Display* display) {
-		int arrDspParam{Display::getDspParam(display)};	//{nDspLgt, nDspHgt};
-		int nDspLgt{arrDspParam};
-		int nDspHgt{ arrDspParam + 1 };
+	void setWindow(int* arrDspParam) {
+		//int arrDspParam{Display::getDspParam(display)};	//{nDspLgt, nDspHgt};
+		int nDspLgt{ arrDspParam[0]};
+		int nDspHgt{ arrDspParam[1]};
 
 		std::cout << "Enter window X point: ";
 		std::cin >> nWndX;
@@ -95,10 +95,10 @@ public:
 		if (nWndHgt < 1) nWndHgt = { 1 };
 		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nDspHgt - nWndY };
 	}
-	void setMove(Display* display) {
-		int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
-		int nDspLgt{ arrDspParam };
-		int nDspHgt{ arrDspParam + 1 };
+	void setMove(int* arrDspParam) {
+		//int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
+		int nDspLgt{ arrDspParam[0]};
+		int nDspHgt{ arrDspParam[1]};
 
 		int nX{ 0 }, nY{ 0 };
 		std::cout << "Enter vector X point: ";
@@ -115,10 +115,10 @@ public:
 
 		std::cout << "New (X Y) window point (" << nWndX << " " << nWndY << ")\n";
 	}
-	void setResize(Display* display) {
-		int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
-		int nDspLgt{ arrDspParam };
-		int nDspHgt{ arrDspParam + 1 };
+	void setResize(int* arrDspParam) {
+		//int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
+		int nDspLgt{ arrDspParam[0]};
+		int nDspHgt{ arrDspParam[1]};
 
 		std::cout << "Enter window lenght: ";
 		std::cin >> nWndLgt;
@@ -133,9 +133,9 @@ public:
 
 		std::cout << "New size window (" << nWndLgt / 2 << " X " << nWndHgt << ")\n";
 	}
-	static int getWinParam(Window* window) {
-		int arrWinParam [4] { window->nWndX, window->nWndY, window->nWndLgt, window->nWndHgt };
-		return *arrWinParam;
+	int* getWinParam() {
+		int arrWinParam [4] {nWndX, nWndY, nWndLgt, nWndHgt };
+		return arrWinParam;
 	}
 };
 
@@ -145,16 +145,24 @@ int main() {
 	Window* window1 = new Window;
 	std::cout << "Enter display size\n";
 	display1->setDisplay();
-	window1->setWindow(display1);
-
+	int arrDspParam[2]{ };
+	for (int i{ 0 }, *p{ display1->getDspParam() }; i < 2; ++i) {
+		arrDspParam[i] = p[i];
+	}
+	window1->setWindow(arrDspParam);
 	std::string cCmd{ "" };
 
 	while (cCmd != "close") {
 		std::cout << "Enter command (move, resize, display, close): ";
 		std::cin >> cCmd;
-		if (cCmd == "move") window1->setMove(display1);
-		else if (cCmd == "resize")window1->setResize(display1);
-		else if (cCmd == "display") display1->getDisplay(window1);
+		int arrWndParam[4]{};
+		for (int i{ 0 }, * p{ window1->getWinParam() }; i < 4; ++i) {
+			arrWndParam[i] = p[i];
+		}
+
+		if (cCmd == "move") window1->setMove(arrDspParam);
+		else if (cCmd == "resize") window1->setResize(arrDspParam);
+		else if (cCmd == "display") display1->getDisplay(arrWndParam);
 		else std::cout << "unknown command\n";
 	}
 
