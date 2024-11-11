@@ -24,7 +24,7 @@ class Display {
 	}
 	
 	void getDisplay(int* arrWinParam) {
-		//int arrWinParam{ Window::getWinParam(window) }; //{nWndX, nWndY, nWndLgt, nWndHgt };
+		
 		int nWndX{ arrWinParam[0]};
 		int nWndY{ arrWinParam[1]};
 		int nWndLgt{ arrWinParam[2]};
@@ -73,7 +73,7 @@ private:
 	int nWndX{ 0 }, nWndY{ 0 }, nWndLgt{ 0 }, nWndHgt{ 0 };
 public:
 	void setWindow(int* arrDspParam) {
-		//int arrDspParam{Display::getDspParam(display)};	//{nDspLgt, nDspHgt};
+		
 		int nDspLgt{ arrDspParam[0]};
 		int nDspHgt{ arrDspParam[1]};
 
@@ -96,7 +96,7 @@ public:
 		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nDspHgt - nWndY };
 	}
 	void setMove(int* arrDspParam) {
-		//int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
+		
 		int nDspLgt{ arrDspParam[0]};
 		int nDspHgt{ arrDspParam[1]};
 
@@ -116,7 +116,7 @@ public:
 		std::cout << "New (X Y) window point (" << nWndX << " " << nWndY << ")\n";
 	}
 	void setResize(int* arrDspParam) {
-		//int arrDspParam{ Display::getDspParam(display) };	//{nDspLgt, nDspHgt};
+		
 		int nDspLgt{ arrDspParam[0]};
 		int nDspHgt{ arrDspParam[1]};
 
