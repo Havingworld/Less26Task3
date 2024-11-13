@@ -8,9 +8,9 @@ class Display {
 
 	public:
 
-	int getDspParam() {
-		int arrDspParam[2]{ nDspLgt, nDspHgt};
-		return arrDspParam[2];
+	std::array<int,2> getDspParam() {
+		std::array<int,2> arrDspParam{ nDspLgt, nDspHgt};
+		return arrDspParam;
 	}
 
 	void setDisplay() {
@@ -23,7 +23,7 @@ class Display {
 		if (nDspHgt < 1) nDspHgt = { 1 };
 	}
 	
-	void getDisplay(Window* window);
+	void getDisplay(class Window* window);
 };
 
 class Window {
@@ -31,9 +31,9 @@ private:
 	int nWndX{ 0 }, nWndY{ 0 }, nWndLgt{ 0 }, nWndHgt{ 0 };
 public:
 	void setWindow(Display* display) {
-		int arrDspParam{display->getDspParam()};
-		int nDspLgt{ arrDspParam};
-		int nDspHgt{ arrDspParam + 1};
+		std::array<int,2> arrDspParam{ display->getDspParam() };
+		int nDspLgt{ arrDspParam[0] };
+		int nDspHgt{ arrDspParam[1] };
 
 		std::cout << "Enter window X point: ";
 		std::cin >> nWndX;
@@ -54,9 +54,9 @@ public:
 		if ((nWndY + nWndHgt) > nDspHgt) nWndHgt = { nDspHgt - nWndY };
 	}
 	void setMove(Display* display) {
-		int arrDspParam{ display->getDspParam() };
-		int nDspLgt{ arrDspParam};
-		int nDspHgt{ arrDspParam + 1};
+		std::array<int, 2> arrDspParam{ display->getDspParam() };
+		int nDspLgt{ arrDspParam[0] };
+		int nDspHgt{ arrDspParam[1] };
 
 		int nX{ 0 }, nY{ 0 };
 		std::cout << "Enter vector X point: ";
@@ -74,9 +74,9 @@ public:
 		std::cout << "New (X Y) window point (" << nWndX << " " << nWndY << ")\n";
 	}
 	void setResize(Display* display) {
-		int arrDspParam{ display->getDspParam() };
-		int nDspLgt{ arrDspParam };
-		int nDspHgt{ arrDspParam + 1 };
+		std::array<int, 2> arrDspParam{ display->getDspParam() };
+		int nDspLgt{ arrDspParam[0] };
+		int nDspHgt{ arrDspParam[1] };
 
 		std::cout << "Enter window lenght: ";
 		std::cin >> nWndLgt;
@@ -91,19 +91,19 @@ public:
 
 		std::cout << "New size window (" << nWndLgt / 2 << " X " << nWndHgt << ")\n";
 	}
-	int getWinParam() {
-		int arrWinParam [4] {nWndX, nWndY, nWndLgt, nWndHgt };
-		return arrWinParam[4];
+	std::array <int,4> getWinParam() {
+		std::array <int,4> arrWinParam {nWndX, nWndY, nWndLgt, nWndHgt };
+		return arrWinParam;
 	}
 };
 
 void Display::getDisplay(Window* window) {
 
-	int arrWinParam{ window->getWinParam()};
-	int nWndX{ arrWinParam};
-	int nWndY{ arrWinParam + 1};
-	int nWndLgt{ arrWinParam + 2};
-	int nWndHgt{ arrWinParam + 3};
+	std::array <int,4> arrWinParam{ window->getWinParam()};
+	int nWndX{ arrWinParam[0]};
+	int nWndY{ arrWinParam[1]};
+	int nWndLgt{ arrWinParam[2]};
+	int nWndHgt{ arrWinParam[3]};
 
 	std::cout << (char)0xC9;
 	for (int i = 0; i <= nDspLgt; i++) {
@@ -136,7 +136,7 @@ void Display::getDisplay(Window* window) {
 	}
 
 	std::cout << (char)0xC8;
-	for (int i = 0; i <= nDspLgt; i++) {
+	for (int i = 0; i <= Display::nDspLgt; i++) {
 		std::cout << (char)0xCD;
 	}
 	std::cout << (char)0xBC << std::endl;
